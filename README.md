@@ -12,6 +12,6 @@
 6.  Run Python code
   ```python main.py```
 7. Run tests 
-  ```python -m unittest test.py```  
+  ```python -m pytest```  
 8. To deactivate when done
   ```deactivate```
