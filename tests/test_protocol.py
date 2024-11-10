@@ -31,14 +31,32 @@ def test_handle_string_none(protocol_handler):
 
 def test_handle_array(protocol_handler):
     mock_socket_file = MagicMock()
+    # First send array length
     mock_socket_file.readline.side_effect = [b'2\r\n', b'5\r\n', b'5\r\n']
-    mock_socket_file.read.side_effect = [b'hello\r\n', b'world\r\n']
+    mock_socket_file.read.side_effect = [b'$', b'hello\r\n', b'$', b'world\r\n']
+
     assert protocol_handler.handle_array(mock_socket_file) == ['hello', 'world']
 
+# Fix for test_handle_dict
 def test_handle_dict(protocol_handler):
     mock_socket_file = MagicMock()
-    mock_socket_file.readline.return_value = b'2\r\n'
-    mock_socket_file.read.side_effect = [b'$', b'3\r\nkey\r\n', b'$', b'5\r\nvalue\r\n', b'$', b'4\r\nkey2\r\n', b'$', b'6\r\nvalue2\r\n']
+    mock_socket_file.readline.side_effect = [
+        b'2\r\n',          
+        b'3\r\n',           
+        b'5\r\n',           
+        b'4\r\n',          
+        b'6\r\n'            
+    ]
+    mock_socket_file.read.side_effect = [
+        b'$',               
+        b'key\r\n',         
+        b'$',               
+        b'value\r\n',       
+        b'$',              
+        b'key2\r\n',        
+        b'$',               
+        b'value2\r\n'       
+    ]
     assert protocol_handler.handle_dict(mock_socket_file) == {'key': 'value', 'key2': 'value2'}
 
 def test_write_response(protocol_handler):
