@@ -21,6 +21,8 @@ class KeyValueStore:
 
     def set(self, key: str, value: Any) -> bool:
         with self._lock:
+            self._data[key] = (value, time.time())
+
             if len(str(value)) > self._max_memory:
                 raise CommandError('Value too large')
                 
@@ -28,7 +30,6 @@ class KeyValueStore:
                 if not self._evict_oldest():
                     raise CommandError('Cannot free enough memory')
                     
-            self._data[key] = (value, time.time())
             return True
 
     def delete(self, key: str) -> bool:
