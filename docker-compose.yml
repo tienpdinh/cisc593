@@ -1,0 +1,13 @@
+version: '3.8'
+
+services:
+  miniature-redis-server:
+    image: miniature-redis-server
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "8000:8000"
+    environment:
+      SERVER_ADDRESS: 0.0.0.0
+      SERVER_PORT: 8000

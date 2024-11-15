@@ -5,7 +5,7 @@ from unittest.mock import patch, MagicMock
 from socket import error as socket_error
 
 # Add the parent directory to the sys.path
-sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
+sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '../src')))
 
 from client import Client
 from protocol import ProtocolHandler, Error
